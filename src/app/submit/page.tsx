@@ -88,7 +88,7 @@ export default function SubmitPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-display neon-cyan mb-8">
-        Raconte ton exploit
+        Aujourd'hui, j'ai demandé à Claude...
       </h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -96,7 +96,7 @@ export default function SubmitPage() {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Aujourd'hui, j'ai demandé à Claude de..."
+            placeholder="...de mass rename tous mes fichiers et il a mass delete mon repo"
             className="w-full h-64 p-4 bg-surface border border-border rounded text-foreground placeholder:text-foreground-muted focus:outline-none focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan resize-none"
             maxLength={MAX_LENGTH}
           />
@@ -124,7 +124,7 @@ export default function SubmitPage() {
         <ul className="list-disc list-inside space-y-1">
           <li>Raconte un vrai exploit avec Claude Code</li>
           <li>Pas de spam, pub ou contenu inapproprié</li>
-          <li>Sois créatif et fais rire la communauté !</li>
+          <li>Sois créatif et fais nous rêver Champion !</li>
         </ul>
       </div>
     </div>
