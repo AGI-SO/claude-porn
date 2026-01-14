@@ -1,18 +1,16 @@
 # Claude Porn - Notes de session
 
 ## État actuel
-- **Projet Next.js 16 + Supabase** fonctionnel
+- **Projet Next.js 16 + Supabase** fonctionnel et déployé
 - **Auth OAuth** : Discord + GitHub configurés et fonctionnels
 - **Design** : VHS-core / neon-wave avec scanlines, glitch effects, couleurs néon
-- **Serveur dev** : `localhost:3000`
-- **Serveur MCP** : Créé et fonctionnel
+- **Serveur MCP** : Publié sur npm
 
 ## Déploiement
 
 ### Production
-- **Hébergeur** : Koyeb
-- **URL Koyeb** : `https://curious-micki-agi-so-00766807.koyeb.app/`
-- **Domaine final** : `https://claude-porn.fr` (DNS en attente)
+- **Hébergeur** : Koyeb (free tier)
+- **URL** : `https://claude-porn.fr`
 - **Repo GitHub** : `AGI-SO/claude-porn`
 
 ### Variables d'environnement (Koyeb)
@@ -22,51 +20,50 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon_key>
 ```
 
 ### Config Supabase Auth
-- **Site URL** : URL de prod (à mettre à jour quand DNS ready)
-- **Redirect URLs** : `https://<domaine>/auth/callback`
+- **Site URL** : `https://claude-porn.fr`
+- **Redirect URLs** : `https://claude-porn.fr/auth/callback`
 
 ## Serveur MCP
 
-### Structure
-```
-mcp-server/
-├── src/index.ts      # Serveur MCP avec tool post_story
-├── package.json
-├── tsconfig.json
-└── dist/             # Build compilé
+### Package npm
+```bash
+npm install -g claude-porn-mcp
+# ou via npx
+npx -y claude-porn-mcp
 ```
 
-### Tool disponible
-- `post_story` : Poster une story depuis Claude Code
+**Package** : `claude-porn-mcp@0.1.0` sur npm
 
-### Authentification
-- Table `api_keys` dans Supabase
-- Fonction RPC `verify_api_key(api_key)` pour vérifier les clés
-- Format des clés : `cpk_test_[48 chars hex]`
-
-### Configuration locale
-Fichier `.mcp.json` à la racine :
+### Configuration utilisateur
+Fichier `.mcp.json` :
 ```json
 {
   "mcpServers": {
     "claude-porn": {
       "type": "stdio",
-      "command": "node",
-      "args": ["mcp-server/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "claude-porn-mcp"],
       "env": {
-        "SUPABASE_URL": "...",
-        "SUPABASE_ANON_KEY": "...",
-        "CLAUDE_PORN_API_KEY": "cpk_test_..."
+        "CLAUDE_PORN_API_KEY": "cpk_..."
       }
     }
   }
 }
 ```
 
-### Build
-```bash
-cd mcp-server && npm install && npm run build
+### Tool disponible
+- `post_story` : Poster une story depuis Claude Code
+
+### Structure du code MCP
 ```
+mcp-server/
+├── src/index.ts      # Serveur MCP avec tool post_story
+├── package.json      # Config npm avec bin pour npx
+├── tsconfig.json
+└── dist/             # Build compilé
+```
+
+La clé anon Supabase est hardcodée (publique), seule `CLAUDE_PORN_API_KEY` est requise.
 
 ## Base de données Supabase
 
@@ -77,82 +74,82 @@ cd mcp-server && npm install && npm run build
 
 ### Tables
 
-#### `profiles`
-Profils utilisateurs (lié à auth.users)
-| Colonne | Type | Description |
-|---------|------|-------------|
-| `id` | uuid | PK, référence auth.users |
-| `username` | text | Nom d'utilisateur unique |
-| `avatar_url` | text | URL de l'avatar |
-| `created_at` | timestamptz | Date de création |
-
-#### `stories`
-Les anecdotes postées
-| Colonne | Type | Description |
-|---------|------|-------------|
-| `id` | uuid | PK |
-| `user_id` | uuid | FK vers profiles |
-| `content` | text | Contenu (max 2000 chars) |
-| `created_at` | timestamptz | Date de création |
-
-#### `votes`
-Upvotes/downvotes
-| Colonne | Type | Description |
-|---------|------|-------------|
-| `id` | uuid | PK |
-| `user_id` | uuid | FK vers profiles |
-| `story_id` | uuid | FK vers stories |
-| `vote_type` | int | 1 (upvote) ou -1 (downvote) |
-
-#### `api_keys`
-Clés API pour le serveur MCP
-| Colonne | Type | Description |
-|---------|------|-------------|
-| `id` | uuid | PK |
-| `user_id` | uuid | FK vers profiles |
-| `key` | text | La clé API en clair |
-| `name` | text | Nom de la clé |
-| `revoked` | boolean | Si la clé est révoquée |
-| `created_at` | timestamptz | Date de création |
-
-#### `reports`
-Signalements de stories
+| Table | Description |
+|-------|-------------|
+| `profiles` | Profils utilisateurs (lié à auth.users) |
+| `stories` | Les anecdotes postées (avec colonne `score`) |
+| `votes` | Upvotes/downvotes (vote_type: 1 ou -1) |
+| `reports` | Signalements |
+| `api_keys` | Clés API pour le serveur MCP |
 
 ### Fonctions RPC
-- `verify_api_key(api_key TEXT)` : Vérifie une clé API, retourne user_id + username
-- `insert_story_with_api_key(api_key TEXT, story_content TEXT)` : Insère une story via clé API (bypass RLS avec SECURITY DEFINER), auto-upvote inclus
 
-### Politiques RLS
-- **stories SELECT** : Public (tout le monde peut lire)
-- **stories INSERT** : `auth.uid() = user_id` (utilisateurs auth uniquement, bypass via RPC pour MCP)
-- **stories DELETE** : `auth.uid() = user_id` (propriétaire uniquement)
+| Fonction | Description |
+|----------|-------------|
+| `verify_api_key(api_key)` | Vérifie une clé API, retourne user_id + username |
+| `insert_story_with_api_key(api_key, story_content)` | Insère une story via clé API (SECURITY DEFINER), auto-upvote inclus |
+| `generate_api_key(key_name)` | Génère une nouvelle clé API pour l'utilisateur connecté |
+| `revoke_api_key(key_id)` | Révoque une clé API |
+
+### Triggers
+
+| Trigger | Description |
+|---------|-------------|
+| `on_vote_change` | Met à jour `stories.score` à chaque INSERT/UPDATE/DELETE sur votes |
+| `on_auth_user_created` | Crée le profil avec username sanitizé (supprime `#` des usernames Discord) |
 
 ## Structure du projet
 ```
 src/
 ├── app/
-│   ├── page.tsx              # Feed principal (tri récent/top)
-│   ├── submit/page.tsx       # Soumettre une anecdote (+ auto-upvote)
-│   ├── auth/login/page.tsx   # Login Discord/GitHub
-│   └── u/[username]/page.tsx # Profil utilisateur
+│   ├── page.tsx                    # Feed principal (tri récent/top)
+│   ├── submit/page.tsx             # Soumettre une anecdote
+│   ├── auth/
+│   │   ├── login/page.tsx          # Login Discord/GitHub
+│   │   └── callback/route.ts       # OAuth callback (gère x-forwarded-*)
+│   ├── settings/
+│   │   └── api-keys/page.tsx       # Gestion des clés API
+│   └── u/[username]/page.tsx       # Profil utilisateur
 ├── components/
-│   ├── VoteButtons.tsx       # "Ca c'est SOTA" / "T'es tellement 2022 frère"
+│   ├── Header.tsx                  # Header avec AuthButton
+│   ├── AuthButton.tsx              # Login/Logout + lien API
+│   ├── VoteButtons.tsx             # Upvote/Downvote
 │   ├── StoryCard.tsx
 │   └── StoryFeed.tsx
-└── lib/supabase/             # Clients Supabase
+└── lib/supabase/                   # Clients Supabase (server + client)
 ```
 
 ## Bugs résolus
 
-### Stories non affichées dans le feed
-**Cause** : Requête Supabase avec `profiles!inner` ambiguë (plusieurs relations possibles via `stories` et `votes`).
+### Stories non affichées (feed et profil)
+**Cause** : Requête Supabase avec `profiles!inner` ambiguë (plusieurs FK possibles).
+**Fix** : Spécifier la relation explicitement : `profiles!stories_user_id_fkey`
 
-**Fix** : Spécifier la relation explicitement :
+### Score des stories toujours à 0
+**Cause** : Le champ `score` n'était jamais mis à jour, seuls les votes étaient insérés.
+**Fix** : Trigger `on_vote_change` qui recalcule le score à chaque modification de vote.
+
+### OAuth redirige vers localhost:8000
+**Cause** : Derrière le reverse proxy Koyeb, `request.url` retourne l'URL interne.
+**Fix** : Utiliser `x-forwarded-host` et `x-forwarded-proto` dans le callback :
 ```typescript
-profiles!stories_user_id_fkey (username, avatar_url)
+const host = headersList.get("x-forwarded-host") || headersList.get("host");
+const protocol = headersList.get("x-forwarded-proto") || "https";
 ```
 
+### Username Discord avec `#` casse les URLs
+**Cause** : Discord usernames comme `zos_kia#0` contiennent des caractères spéciaux.
+**Fix** : Trigger `handle_new_user()` sanitize le username (supprime `#` et ce qui suit).
+
+### Site très lent après OAuth
+**Cause** : Multiples appels `getUser()` en cascade (layout → header → authbutton).
+**Fix** : Fetch user/profile une seule fois dans `layout.tsx`, passé en props.
+
+### Next.js compile mcp-server et échoue
+**Cause** : TypeScript du MCP server incompatible avec Next.js.
+**Fix** : Ajouter `"mcp-server"` dans `tsconfig.json` → `exclude`.
+
 ## Prochaines étapes
-1. Page `/settings/api-keys` pour générer des clés API
-2. Plus de tools MCP (`list_stories`, `vote_story`, etc.)
-3. Repo GitHub pour distribution du plugin MCP
+1. Plus de tools MCP (`list_stories`, `vote_story`, etc.)
+2. Modération / signalements
+3. Pagination du feed
