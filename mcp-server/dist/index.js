@@ -3,8 +3,10 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 import { createClient } from "@supabase/supabase-js";
-const SUPABASE_URL = process.env.SUPABASE_URL || "https://hgxgdknjcifchvuokamj.supabase.co";
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
+// Public Supabase config (anon key is safe to expose)
+const SUPABASE_URL = "https://hgxgdknjcifchvuokamj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhneGdka25qY2lmY2h2dW9rYW1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MDcwMjUsImV4cCI6MjA4Mzk4MzAyNX0.VpZCnkxDEdM20xmom7wfVGtu06sYbNTIxasoH9PqBeM";
+// User's API key from environment
 const CLAUDE_PORN_API_KEY = process.env.CLAUDE_PORN_API_KEY || "";
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const server = new Server({
