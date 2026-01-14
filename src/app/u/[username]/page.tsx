@@ -27,7 +27,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     .from("stories")
     .select(`
       *,
-      profiles!inner (
+      profiles!stories_user_id_fkey (
         username,
         avatar_url
       )
