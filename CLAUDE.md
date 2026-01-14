@@ -7,6 +7,24 @@
 - **Serveur dev** : `localhost:3000`
 - **Serveur MCP** : Créé et fonctionnel
 
+## Déploiement
+
+### Production
+- **Hébergeur** : Koyeb
+- **URL Koyeb** : `https://curious-micki-agi-so-00766807.koyeb.app/`
+- **Domaine final** : `https://claude-porn.fr` (DNS en attente)
+- **Repo GitHub** : `AGI-SO/claude-porn`
+
+### Variables d'environnement (Koyeb)
+```
+NEXT_PUBLIC_SUPABASE_URL=https://hgxgdknjcifchvuokamj.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon_key>
+```
+
+### Config Supabase Auth
+- **Site URL** : URL de prod (à mettre à jour quand DNS ready)
+- **Redirect URLs** : `https://<domaine>/auth/callback`
+
 ## Serveur MCP
 
 ### Structure
