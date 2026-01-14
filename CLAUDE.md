@@ -98,8 +98,28 @@ La clé anon Supabase est hardcodée (publique), seule `CLAUDE_PORN_API_KEY` est
 | `on_vote_change` | Met à jour `stories.score` à chaque INSERT/UPDATE/DELETE sur votes |
 | `on_auth_user_created` | Crée le profil avec username sanitizé (supprime `#` des usernames Discord) |
 
+### ⚠️ Règle importante
+**Toute modification de fonction ou trigger sur Supabase DOIT être reportée dans `sql/`.**
+- Fonctions → `sql/functions/<nom_fonction>.sql`
+- Triggers → `sql/triggers/<nom_trigger>.sql`
+
+Le dossier `sql/` est la source de vérité pour le code backend Supabase.
+
 ## Structure du projet
 ```
+sql/
+├── functions/                      # Fonctions RPC Supabase
+│   ├── generate_api_key.sql
+│   ├── handle_new_user.sql
+│   ├── insert_story_with_api_key.sql
+│   ├── revoke_api_key.sql
+│   ├── sanitize_username.sql
+│   ├── update_story_score.sql
+│   └── verify_api_key.sql
+└── triggers/                       # Triggers Supabase
+    ├── on_auth_user_created.sql
+    └── on_vote_change.sql
+
 src/
 ├── app/
 │   ├── page.tsx                    # Feed principal (tri récent/top)

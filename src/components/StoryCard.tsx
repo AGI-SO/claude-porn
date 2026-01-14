@@ -1,10 +1,13 @@
 import Link from "next/link";
-import type { StoryWithAuthor } from "@/lib/types";
+import type { StoryWithAuthor, UserRole } from "@/lib/types";
 import { VoteButtons } from "./VoteButtons";
 import { ReportButton } from "./ReportButton";
+import { DeleteStoryButton } from "./DeleteStoryButton";
 
 interface StoryCardProps {
   story: StoryWithAuthor;
+  currentUserId?: string | null;
+  currentUserRole?: UserRole | null;
 }
 
 function formatDate(dateString: string): string {
@@ -22,7 +25,9 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
 }
 
-export function StoryCard({ story }: StoryCardProps) {
+export function StoryCard({ story, currentUserId, currentUserRole }: StoryCardProps) {
+  const canDelete = currentUserId === story.user_id || currentUserRole === "admin";
+
   return (
     <article className="card p-4 flex gap-4 transition-all duration-200">
       <VoteButtons
@@ -32,6 +37,9 @@ export function StoryCard({ story }: StoryCardProps) {
       />
 
       <div className="flex-1 min-w-0">
+        <p className="text-xs text-foreground-muted/60 italic mb-1">
+          Aujourd'hui j'ai demandé à Claude...
+        </p>
         <p className="text-foreground whitespace-pre-wrap break-words leading-relaxed">
           {story.content}
         </p>
@@ -57,6 +65,8 @@ export function StoryCard({ story }: StoryCardProps) {
           <span>·</span>
           <time>{formatDate(story.created_at)}</time>
           <span className="flex-1" />
+          {canDelete && <DeleteStoryButton storyId={story.id} />}
+          {canDelete && <span className="text-foreground-muted">·</span>}
           <ReportButton storyId={story.id} />
         </div>
       </div>

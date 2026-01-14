@@ -35,9 +35,19 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     .eq("user_id", profile.id)
     .order("created_at", { ascending: false });
 
-  // Get current user's votes
+  // Get current user's votes and role
   const { data: { user } } = await supabase.auth.getUser();
   let userVotes: Record<string, number> = {};
+  let currentUserRole = null;
+
+  if (user) {
+    const { data: currentProfile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    currentUserRole = currentProfile?.role || null;
+  }
 
   if (user && stories && stories.length > 0) {
     const storyIds = stories.map((s: { id: string }) => s.id);
@@ -105,7 +115,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         Ses exploits
       </h2>
 
-      <StoryFeed stories={storiesWithVotes} />
+      <StoryFeed
+        stories={storiesWithVotes}
+        currentUserId={user?.id}
+        currentUserRole={currentUserRole}
+      />
     </div>
   );
 }

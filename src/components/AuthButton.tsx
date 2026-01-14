@@ -8,6 +8,7 @@ import type { User } from "@supabase/supabase-js";
 interface Profile {
   username: string;
   avatar_url: string | null;
+  role?: string | null;
 }
 
 interface AuthButtonProps {
@@ -43,6 +44,15 @@ export function AuthButton({ user, profile }: AuthButtonProps) {
             </div>
           )}
         </Link>
+{profile.role === "admin" && (
+          <Link
+            href="/admin/reports"
+            className="text-neon-rose hover:text-neon-orange transition-colors text-sm"
+            title="Moderation"
+          >
+            Admin
+          </Link>
+        )}
         <Link
           href="/settings/api-keys"
           className="text-foreground-muted hover:text-neon-cyan transition-colors text-sm"

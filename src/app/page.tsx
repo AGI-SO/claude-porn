@@ -15,6 +15,17 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Get user role if logged in
+  let currentUserRole = null;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    currentUserRole = profile?.role || null;
+  }
+
   let query = supabase
     .from("stories")
     .select(`
@@ -81,7 +92,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </SortLink>
       </nav>
 
-      <StoryFeed stories={storiesWithVotes} />
+      <StoryFeed
+        stories={storiesWithVotes}
+        currentUserId={user?.id}
+        currentUserRole={currentUserRole}
+      />
     </div>
   );
 }

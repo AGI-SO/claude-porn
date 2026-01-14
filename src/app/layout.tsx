@@ -27,7 +27,7 @@ export default async function RootLayout({
   if (user) {
     const { data } = await supabase
       .from("profiles")
-      .select("username, avatar_url")
+      .select("username, avatar_url, role")
       .eq("id", user.id)
       .single();
     profile = data;
@@ -35,11 +35,19 @@ export default async function RootLayout({
 
   return (
     <html lang="fr">
+      <head>
+        <link rel="alternate" type="application/rss+xml" title="Claude Porn RSS" href="/feed.xml" />
+      </head>
       <body className={`${jetbrainsMono.variable} font-mono antialiased scanlines noise`}>
         <Header user={user} profile={profile} />
         <main className="min-h-screen pt-20 px-4 pb-8 max-w-4xl mx-auto">
           {children}
         </main>
+        <footer className="py-6 text-center text-sm text-foreground-muted border-t border-border">
+          <a href="/feed.xml" className="hover:text-neon-cyan transition-colors">
+            RSS
+          </a>
+        </footer>
       </body>
     </html>
   );

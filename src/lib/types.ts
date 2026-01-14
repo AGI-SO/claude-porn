@@ -1,3 +1,6 @@
+export type UserRole = "user" | "admin";
+export type ReportStatus = "open" | "resolved" | "dismissed";
+
 export type Database = {
   public: {
     Tables: {
@@ -7,18 +10,21 @@ export type Database = {
           username: string;
           avatar_url: string | null;
           created_at: string;
+          role: UserRole;
         };
         Insert: {
           id: string;
           username: string;
           avatar_url?: string | null;
           created_at?: string;
+          role?: UserRole;
         };
         Update: {
           id?: string;
           username?: string;
           avatar_url?: string | null;
           created_at?: string;
+          role?: UserRole;
         };
       };
       stories: {
@@ -71,6 +77,9 @@ export type Database = {
           reporter_id: string;
           reason: string | null;
           created_at: string;
+          status: ReportStatus;
+          admin_note: string | null;
+          resolved_at: string | null;
         };
         Insert: {
           id?: string;
@@ -78,6 +87,9 @@ export type Database = {
           reporter_id: string;
           reason?: string | null;
           created_at?: string;
+          status?: ReportStatus;
+          admin_note?: string | null;
+          resolved_at?: string | null;
         };
         Update: {
           id?: string;
@@ -85,6 +97,9 @@ export type Database = {
           reporter_id?: string;
           reason?: string | null;
           created_at?: string;
+          status?: ReportStatus;
+          admin_note?: string | null;
+          resolved_at?: string | null;
         };
       };
     };
@@ -99,4 +114,9 @@ export type Report = Database["public"]["Tables"]["reports"]["Row"];
 export type StoryWithAuthor = Story & {
   profiles: Pick<Profile, "username" | "avatar_url">;
   user_vote?: number | null;
+};
+
+export type ReportWithDetails = Report & {
+  stories: Pick<Story, "id" | "content" | "created_at" | "score">;
+  reporter: Pick<Profile, "username" | "avatar_url">;
 };
