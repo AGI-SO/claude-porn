@@ -43,6 +43,13 @@ export function AuthButton({ user, profile }: AuthButtonProps) {
             </div>
           )}
         </Link>
+        <Link
+          href="/settings/api-keys"
+          className="text-foreground-muted hover:text-neon-cyan transition-colors text-sm"
+          title="Clés API"
+        >
+          API
+        </Link>
         <button
           onClick={handleSignOut}
           className="text-foreground-muted hover:text-neon-orange transition-colors text-sm"
