@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 
 interface Profile {
@@ -10,57 +10,19 @@ interface Profile {
   avatar_url: string | null;
 }
 
-export function AuthButton() {
-  const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+interface AuthButtonProps {
+  user: User | null;
+  profile: Profile | null;
+}
+
+export function AuthButton({ user, profile }: AuthButtonProps) {
+  const router = useRouter();
   const supabase = createClient();
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-
-      if (user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("username, avatar_url")
-          .eq("id", user.id)
-          .single();
-        setProfile(profile);
-      }
-
-      setLoading(false);
-    };
-
-    getUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("username, avatar_url")
-          .eq("id", session.user.id)
-          .single();
-        setProfile(profile);
-      } else {
-        setProfile(null);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+    router.refresh();
   };
-
-  if (loading) {
-    return (
-      <div className="w-8 h-8 rounded-full bg-surface animate-pulse" />
-    );
-  }
 
   if (user && profile) {
     return (

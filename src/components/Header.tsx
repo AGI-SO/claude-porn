@@ -1,7 +1,18 @@
 import Link from "next/link";
 import { AuthButton } from "./AuthButton";
+import type { User } from "@supabase/supabase-js";
 
-export function Header() {
+interface Profile {
+  username: string;
+  avatar_url: string | null;
+}
+
+interface HeaderProps {
+  user: User | null;
+  profile: Profile | null;
+}
+
+export function Header({ user, profile }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -18,7 +29,7 @@ export function Header() {
           >
             + Poster
           </Link>
-          <AuthButton />
+          <AuthButton user={user} profile={profile} />
         </nav>
       </div>
     </header>
