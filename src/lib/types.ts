@@ -34,6 +34,7 @@ export type Database = {
           content: string;
           created_at: string;
           score: number;
+          posted_via_mcp: boolean;
         };
         Insert: {
           id?: string;
@@ -41,6 +42,7 @@ export type Database = {
           content: string;
           created_at?: string;
           score?: number;
+          posted_via_mcp?: boolean;
         };
         Update: {
           id?: string;
@@ -48,6 +50,7 @@ export type Database = {
           content?: string;
           created_at?: string;
           score?: number;
+          posted_via_mcp?: boolean;
         };
       };
       votes: {

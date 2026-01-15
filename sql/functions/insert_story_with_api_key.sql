@@ -25,9 +25,9 @@ BEGIN
     RAISE EXCEPTION 'Invalid or revoked API key';
   END IF;
 
-  -- Insert the story
-  INSERT INTO stories (user_id, content)
-  VALUES (v_user_id, story_content)
+  -- Insert the story with MCP flag
+  INSERT INTO stories (user_id, content, posted_via_mcp)
+  VALUES (v_user_id, story_content, TRUE)
   RETURNING id INTO v_story_id;
 
   -- Auto-upvote by author

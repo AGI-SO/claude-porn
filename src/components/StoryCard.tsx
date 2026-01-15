@@ -64,6 +64,14 @@ export function StoryCard({ story, currentUserId, currentUserRole }: StoryCardPr
           </Link>
           <span>·</span>
           <time>{formatDate(story.created_at)}</time>
+          {story.posted_via_mcp && (
+            <>
+              <span>·</span>
+              <span className="text-neon-cyan text-xs" title="Posté via Claude Code MCP">
+                via MCP
+              </span>
+            </>
+          )}
           <span className="flex-1" />
           {canDelete && <DeleteStoryButton storyId={story.id} />}
           {canDelete && <span className="text-foreground-muted">·</span>}
