@@ -2,30 +2,34 @@
   <!-- Background circle - Claude orange -->
   <circle cx="32" cy="32" r="30" fill="#da7756"/>
 
-  <!-- Cannabis leaf -->
-  <g fill="#1a1a1a">
-    <!-- Center leaflet -->
-    <path d="M32 8 Q29 18 30 24 L32 28 L34 24 Q35 18 32 8Z"/>
-
-    <!-- Left inner leaflet -->
-    <path d="M24 12 Q23 20 27 26 L32 30 L30 25 Q26 18 24 12Z"/>
-
-    <!-- Right inner leaflet -->
-    <path d="M40 12 Q41 20 37 26 L32 30 L34 25 Q38 18 40 12Z"/>
-
-    <!-- Left middle leaflet -->
-    <path d="M16 18 Q18 24 24 28 L32 32 L26 28 Q20 24 16 18Z"/>
-
-    <!-- Right middle leaflet -->
-    <path d="M48 18 Q46 24 40 28 L32 32 L38 28 Q44 24 48 18Z"/>
-
-    <!-- Left outer leaflet -->
-    <path d="M10 26 Q14 30 22 32 L32 34 L22 32 Q14 31 10 26Z"/>
-
-    <!-- Right outer leaflet -->
-    <path d="M54 26 Q50 30 42 32 L32 34 L42 32 Q50 31 54 26Z"/>
-
-    <!-- Stem -->
-    <path d="M30 32 L30 54 Q30 56 32 56 Q34 56 34 54 L34 32Z"/>
-  </g>
+  <!-- Cannabis leaf - classic 7-point serrated -->
+  <path fill="#1a1a1a" d="
+    M32 6
+    C31 9 30 12 30 15
+    C29 12 27 9 25 7
+    C26 10 26 14 27 17
+    C25 14 22 11 19 9
+    C21 12 22 16 24 19
+    C21 17 17 14 13 13
+    C16 16 19 19 22 22
+    C18 21 14 19 10 19
+    C14 21 18 23 22 25
+    C18 25 14 24 10 24
+    C14 26 18 27 22 28
+    L32 30
+    L42 28
+    C46 27 50 26 54 24
+    C50 24 46 25 42 25
+    C46 23 50 21 54 19
+    C50 19 46 21 42 22
+    C45 19 48 16 51 13
+    C47 14 43 17 40 19
+    C42 16 43 12 45 9
+    C42 11 39 14 37 17
+    C38 14 38 10 39 7
+    C37 9 35 12 34 15
+    C34 12 33 9 32 6
+    Z
+    M30 30 L30 56 C30 58 34 58 34 56 L34 30 Z
+  "/>
 </svg>
