@@ -13,6 +13,20 @@ export const metadata: Metadata = {
   title: "Claude Porn - Vu à la télé",
   description: "La chaîne des exploits Claude Code. Audimat garanti.",
   keywords: ["claude", "ai", "coding", "stories", "programming"],
+  openGraph: {
+    title: "Claude Porn",
+    description: "Aujourd'hui j'ai demandé à Claude de... et c'est parti en couille.",
+    url: "https://claude-porn.fr",
+    siteName: "Claude Porn",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Claude Porn - Vu à la télé",
+    description: "Les dingueries de Claude Code racontées par ceux qui les vivent. Audimat garanti.",
+  },
+  metadataBase: new URL("https://claude-porn.fr"),
 };
 
 export default async function RootLayout({
