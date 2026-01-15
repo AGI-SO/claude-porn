@@ -75,7 +75,7 @@ export function VoteButtons({ storyId, initialScore, initialUserVote }: VoteButt
         onClick={() => handleVote(1)}
         disabled={isVoting}
         className={`vote-up text-xl transition-transform hover:scale-110 ${userVote === 1 ? "active" : ""}`}
-        title="Ca c'est SOTA"
+        title="Audimat +1"
       >
         ▲
       </button>
@@ -86,7 +86,7 @@ export function VoteButtons({ storyId, initialScore, initialUserVote }: VoteButt
         onClick={() => handleVote(-1)}
         disabled={isVoting}
         className={`vote-down text-xl transition-transform hover:scale-110 ${userVote === -1 ? "active" : ""}`}
-        title="T'es tellement 2022 frère"
+        title="Coupure pub"
       >
         ▼
       </button>

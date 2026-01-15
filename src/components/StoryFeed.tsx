@@ -12,10 +12,10 @@ export function StoryFeed({ stories, currentUserId, currentUserRole }: StoryFeed
     return (
       <div className="text-center py-16">
         <p className="text-foreground-muted text-lg">
-          Aucune histoire pour le moment...
+          Pas de programme ce soir...
         </p>
         <p className="text-foreground-muted mt-2">
-          Sois le premier à partager ton exploit !
+          La grille est vide. À toi l'antenne.
         </p>
       </div>
     );

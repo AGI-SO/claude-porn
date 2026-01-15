@@ -197,3 +197,88 @@ body {
   background: var(--neon-magenta);
   color: var(--background);
 }
+
+/* Glitch hard - plus agressif pour titres */
+.glitch-hard {
+  animation: glitch-hard 3s infinite;
+}
+
+@keyframes glitch-hard {
+  0%, 85%, 100% {
+    transform: none;
+    filter: none;
+    text-shadow: -2px 0 var(--neon-magenta), 2px 0 var(--neon-cyan);
+  }
+  86% {
+    transform: skewX(-2deg) translateX(-2px);
+    filter: hue-rotate(90deg);
+    text-shadow: -4px 0 var(--neon-magenta), 4px 0 var(--neon-cyan);
+  }
+  87% {
+    transform: skewX(2deg) translateX(2px);
+    filter: hue-rotate(-90deg);
+  }
+  88% {
+    transform: none;
+    filter: none;
+  }
+  89% {
+    transform: skewX(-1deg) translateY(-1px);
+    filter: saturate(2);
+  }
+  90% {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* VHS tracking effect on hover */
+.vhs-tracking {
+  transition: all 0.2s ease;
+}
+
+.vhs-tracking:hover {
+  animation: vhs-glitch 0.3s ease;
+}
+
+@keyframes vhs-glitch {
+  0% { transform: translateX(0); filter: none; }
+  20% { transform: translateX(-3px); filter: hue-rotate(10deg) saturate(1.2); }
+  40% { transform: translateX(3px); filter: hue-rotate(-5deg); }
+  60% { transform: translateX(-1px); filter: hue-rotate(-10deg); }
+  80% { transform: translateX(1px); }
+  100% { transform: translateX(0); filter: none; }
+}
+
+/* Hero section */
+.hero-section {
+  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+  max-height: 500px;
+  overflow: hidden;
+}
+
+.hero-section.scrolled {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Secondary button */
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground-muted);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--foreground);
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.05);
+}

@@ -92,7 +92,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               {profile.username}
             </h1>
             <p className="text-foreground-muted text-sm mt-1">
-              Membre depuis {new Date(profile.created_at).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}
+              À l'antenne depuis {new Date(profile.created_at).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}
             </p>
           </div>
         </div>
@@ -100,19 +100,19 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         <div className="flex gap-6 mt-6 pt-6 border-t border-border">
           <div className="text-center">
             <div className="text-2xl font-bold text-neon-rose">{totalPosts}</div>
-            <div className="text-sm text-foreground-muted">posts</div>
+            <div className="text-sm text-foreground-muted">émissions</div>
           </div>
           <div className="text-center">
             <div className={`text-2xl font-bold ${totalKarma >= 0 ? "text-neon-rose" : "text-neon-orange"}`}>
               {totalKarma}
             </div>
-            <div className="text-sm text-foreground-muted">karma</div>
+            <div className="text-sm text-foreground-muted">audimat</div>
           </div>
         </div>
       </div>
 
       <h2 className="text-xl font-display text-foreground mb-4">
-        Ses exploits
+        Sa filmographie
       </h2>
 
       <StoryFeed

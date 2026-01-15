@@ -1,6 +1,6 @@
 {
   "name": "claude-porn-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for Claude Porn - post stories directly from Claude Code",
   "author": "AGI-SO",
   "license": "MIT",
@@ -10,7 +10,8 @@
     "claude-porn-mcp": "dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "keywords": [
     "mcp",

@@ -27,7 +27,7 @@ export function Header({ user, profile }: HeaderProps) {
             href="/submit"
             className="btn-neon text-sm"
           >
-            + Poster
+            On Air
           </Link>
           <AuthButton user={user} profile={profile} />
         </nav>

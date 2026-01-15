@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { StoryFeed } from "@/components/StoryFeed";
+import { HeroSection } from "@/components/HeroSection";
 import Link from "next/link";
 import type { StoryWithAuthor } from "@/lib/types";
 
@@ -74,21 +75,23 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-display neon-cyan">
-          Les dingueries de Claude Code
-        </h1>
+      <HeroSection />
+
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-display neon-cyan">
+          Vu à la télé
+        </h2>
       </div>
 
       <nav className="flex gap-2 mb-6">
         <SortLink href="/?sort=recent" active={sort === "recent"}>
-          Récent
+          Fresh
         </SortLink>
         <SortLink href="/?sort=top" active={sort === "top"}>
-          Top All-time
+          Hall of Fame
         </SortLink>
         <SortLink href="/?sort=top-week" active={sort === "top-week"}>
-          Top Semaine
+          Hot cette semaine
         </SortLink>
       </nav>
 

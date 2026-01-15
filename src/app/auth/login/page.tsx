@@ -49,10 +49,10 @@ export default function LoginPage() {
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
       <div className="text-center">
         <h1 className="text-4xl font-display neon-cyan glitch-hover mb-4">
-          Login
+          Accès studio
         </h1>
         <p className="text-foreground-muted">
-          Connecte-toi pour partager tes exploits
+          Badge obligatoire pour entrer sur le plateau
         </p>
       </div>
 

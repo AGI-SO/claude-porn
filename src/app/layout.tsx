@@ -10,8 +10,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Claude Porn - Les dingueries de Claude Code",
-  description: "Partage tes exploits avec Claude Code. Vote pour les meilleurs !",
+  title: "Claude Porn - Vu à la télé",
+  description: "La chaîne des exploits Claude Code. Audimat garanti.",
   keywords: ["claude", "ai", "coding", "stories", "programming"],
 };
 
@@ -45,7 +45,7 @@ export default async function RootLayout({
         </main>
         <footer className="py-6 text-center text-sm text-foreground-muted border-t border-border">
           <a href="/feed.xml" className="hover:text-neon-cyan transition-colors">
-            RSS
+            📡 RSS
           </a>
         </footer>
       </body>

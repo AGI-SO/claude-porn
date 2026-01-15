@@ -29,7 +29,7 @@ export function StoryCard({ story, currentUserId, currentUserRole }: StoryCardPr
   const canDelete = currentUserId === story.user_id || currentUserRole === "admin";
 
   return (
-    <article className="card p-4 flex gap-4 transition-all duration-200">
+    <article className="card vhs-tracking p-4 flex gap-4 transition-all duration-200">
       <VoteButtons
         storyId={story.id}
         initialScore={story.score}
@@ -37,8 +37,8 @@ export function StoryCard({ story, currentUserId, currentUserRole }: StoryCardPr
       />
 
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-foreground-muted/60 italic mb-1">
-          Aujourd'hui j'ai demandé à Claude...
+        <p className="text-xs text-neon-orange/80 font-bold mb-1 tracking-wide">
+          BREAKING NEWS
         </p>
         <p className="text-foreground whitespace-pre-wrap break-words leading-relaxed">
           {story.content}
