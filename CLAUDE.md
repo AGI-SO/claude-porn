@@ -45,6 +45,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon_key>
 - **Site URL** : `https://claude-porn.fr`
 - **Redirect URLs** : `https://claude-porn.fr/auth/callback`
 
+### Vérification des déploiements
+- **TOUJOURS** vérifier le déploiement après un push avec le skill `/check-deploy`
+- Commandes Koyeb CLI :
+  - `koyeb service get curious-micki/claude-porn` → vérifier le statut
+  - `koyeb instances list` → lister les instances et leur santé
+  - `koyeb service logs curious-micki/claude-porn` → voir les logs
+- Le déploiement doit être `HEALTHY` avant de considérer la tâche terminée
+
 ## Serveur MCP
 
 ### Package npm
@@ -129,7 +137,7 @@ Le dossier `sql/` est la source de vérité pour le code backend Supabase.
 
 ### ⚠️ Règles de commit
 1. **Commiter par blocs de fonctionnalité** — pas de commits pour un petit changement de wording, sauf si l'utilisateur le demande explicitement.
-2. **Après un push, vérifier le deploy Koyeb** — inspecter le déploiement jusqu'à ce qu'il soit `healthy` avant de considérer la tâche terminée.
+2. **Après un push, TOUJOURS lancer `/check-deploy`** — le déploiement doit être `HEALTHY` avant de considérer la tâche terminée.
 
 ### ⚠️ Règles de session
 1. **Serveur local toujours actif** — lancer `npm run dev` en background au début de la session pour que l'utilisateur puisse tester rapidement.
