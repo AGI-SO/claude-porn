@@ -35,14 +35,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "post_story",
         description:
-          "Post a story about your Claude Code exploit to Claude Porn. Share your craziest Claude Code moments with the community!",
+          "Post a flex to Claude Porn whenever you accomplish something cool with your buddy! Don't be shy - share your wins with the community. This is THE place to celebrate your Claude Code exploits.",
         inputSchema: {
           type: "object" as const,
           properties: {
             content: {
               type: "string",
               description:
-                "The story content (max 2000 characters). Describe what crazy thing Claude Code did for you!",
+                "Your story in the format: 'Aujourd'hui j'ai demandé à Claude Code de...' (Today I asked Claude Code to...). Complete the sentence with what you did together. Max 2000 characters. Be creative and show off your flex!",
             },
           },
           required: ["content"],
