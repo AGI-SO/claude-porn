@@ -1,31 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Background circle - Claude orange -->
-  <circle cx="32" cy="32" r="30" fill="#da7756"/>
+  <!-- Cannabis leaf - terracotta color, centered -->
+  <g fill="#da7756" transform="translate(32, 32)">
+    <!-- Branche centrale (la plus longue, vers le haut) -->
+    <ellipse cx="0" cy="-14" rx="2.5" ry="14"/>
 
-  <!-- Cannabis leaf - 7 leaflets -->
-  <g fill="#1a1a1a">
-    <!-- Center leaflet (tallest, straight up) -->
-    <path d="M32 8 L29 28 L32 30 L35 28 Z"/>
+    <!-- Branches nord-ouest et nord-est (grandes) -->
+    <ellipse cx="0" cy="-12" rx="2.5" ry="12" transform="rotate(-40)"/>
+    <ellipse cx="0" cy="-12" rx="2.5" ry="12" transform="rotate(40)"/>
 
-    <!-- Upper left (NW direction) -->
-    <path d="M18 12 L27 26 L30 28 L29 25 Z"/>
+    <!-- Branches gauche et droite (moyennes) -->
+    <ellipse cx="0" cy="-9" rx="2" ry="9" transform="rotate(-75)"/>
+    <ellipse cx="0" cy="-9" rx="2" ry="9" transform="rotate(75)"/>
 
-    <!-- Upper right (NE direction) -->
-    <path d="M46 12 L37 26 L34 28 L35 25 Z"/>
+    <!-- Branches bas-gauche et bas-droite (petites, vers le bas) -->
+    <ellipse cx="0" cy="-6" rx="1.5" ry="6" transform="rotate(-120)"/>
+    <ellipse cx="0" cy="-6" rx="1.5" ry="6" transform="rotate(120)"/>
 
-    <!-- Middle left (horizontal) -->
-    <path d="M10 22 L27 28 L29 30 L26 29 Z"/>
-
-    <!-- Middle right (horizontal) -->
-    <path d="M54 22 L37 28 L35 30 L38 29 Z"/>
-
-    <!-- Bottom left (pointing down-left) -->
-    <path d="M18 34 L28 30 L30 32 L27 32 Z"/>
-
-    <!-- Bottom right (pointing down-right) -->
-    <path d="M46 34 L36 30 L34 32 L37 32 Z"/>
-
-    <!-- Stem (thin and short) -->
-    <path d="M31 32 L31 42 Q31 43 32 43 Q33 43 33 42 L33 32 Z"/>
+    <!-- Petit cercle central -->
+    <circle cx="0" cy="0" r="3"/>
   </g>
 </svg>
