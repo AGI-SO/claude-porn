@@ -173,6 +173,38 @@ const protocol = headersList.get("x-forwarded-proto") || "https";
 **Cause** : TypeScript du MCP server incompatible avec Next.js.
 **Fix** : Ajouter `"mcp-server"` dans `tsconfig.json` → `exclude`.
 
+## GitHub Actions - Règles d'engagement
+
+Claude est déclenché via :
+- Label `claude` sur une issue
+- Mention `@claude` dans un commentaire
+- Assignation à `claude[bot]`
+
+### Quand créer une PR directement :
+- Bug fixes évidents (typos, erreurs simples)
+- Issues labelées `quick-fix` ou `good-first-issue`
+- Demandes explicites de code dans l'issue
+
+### Quand demander clarification d'abord :
+- Features nouvelles sans spec détaillée
+- Changements d'architecture
+- Modifications de la DB (nouvelles tables, colonnes, RPC)
+- Tout ce qui est ambigu
+
+### Quand faire de la recherche seulement :
+- Issues labelées `question` ou `research`
+- Demandes d'investigation ou d'explication
+- Analyse de bugs sans fix évident
+
+### Convention de branches :
+```
+claude/issue-{number}-{short-description}
+```
+
+### Après chaque PR :
+1. Attendre la review du maintainer
+2. Ne pas merge sans approbation explicite
+
 ## Prochaines étapes
 1. Plus de tools MCP (`list_stories`, `vote_story`, etc.)
 2. Modération / signalements
