@@ -30,7 +30,8 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       profiles!stories_user_id_fkey (
         username,
         avatar_url
-      )
+      ),
+      comments (count)
     `)
     .eq("user_id", profile.id)
     .order("created_at", { ascending: false });
@@ -65,6 +66,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const storiesWithVotes: StoryWithAuthor[] = (stories || []).map((story: any) => ({
     ...story,
     user_vote: userVotes[story.id] || null,
+    comment_count: story.comments?.[0]?.count || 0,
   }));
 
   // Calculate stats

@@ -250,23 +250,6 @@ body {
   100% { transform: translateX(0); filter: none; }
 }
 
-/* Hero section */
-.hero-section {
-  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
-  max-height: 500px;
-  overflow: hidden;
-}
-
-.hero-section.scrolled {
-  opacity: 0;
-  transform: translateY(-20px);
-  pointer-events: none;
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
 /* Secondary button */
 .btn-secondary {
   background: transparent;
@@ -283,15 +266,3 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* Hide header elements when hero is visible */
-body.hero-visible .header-title,
-body.hero-visible .header-submit-btn {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-10px);
-}
-
-.header-title,
-.header-submit-btn {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}

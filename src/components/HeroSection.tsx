@@ -1,31 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
 export function HeroSection() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 100;
-      setScrolled(isScrolled);
-      // Toggle class on body for header visibility
-      document.body.classList.toggle("hero-visible", !isScrolled);
-    };
-    // Set initial state
-    document.body.classList.add("hero-visible");
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.body.classList.remove("hero-visible");
-    };
-  }, []);
-
   return (
-    <section
-      className={`hero-section text-center py-16 mb-8 ${scrolled ? "scrolled" : ""}`}
-    >
+    <section className="text-center py-16 mb-8">
       <h1 className="text-6xl md:text-8xl font-display glitch-hard neon-cyan mb-6 flex items-center justify-center gap-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className="w-16 h-16 md:w-24 md:h-24">
           <g fill="#da7756" transform="translate(32, 48) scale(1.6)">

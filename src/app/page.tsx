@@ -35,7 +35,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       profiles!stories_user_id_fkey (
         username,
         avatar_url
-      )
+      ),
+      comments (count)
     `
     )
     .limit(50);
@@ -79,6 +80,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     (story: any) => ({
       ...story,
       user_vote: userVotes[story.id] || null,
+      comment_count: story.comments?.[0]?.count || 0,
     })
   );
 

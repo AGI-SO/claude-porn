@@ -72,6 +72,17 @@ export function StoryCard({ story, currentUserId, currentUserRole }: StoryCardPr
               </span>
             </>
           )}
+          {typeof story.comment_count !== 'undefined' && (
+            <>
+              <span>·</span>
+              <Link
+                href={`/story/${story.id}`}
+                className="hover:text-neon-cyan transition-colors text-xs"
+              >
+                {story.comment_count} {story.comment_count === 1 ? 'commentaire' : 'commentaires'}
+              </Link>
+            </>
+          )}
           <span className="flex-1" />
           {canDelete && <DeleteStoryButton storyId={story.id} />}
           {canDelete && <span className="text-foreground-muted">·</span>}
