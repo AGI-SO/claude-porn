@@ -57,10 +57,22 @@ export default async function RootLayout({
         <main className="min-h-screen pt-20 px-4 pb-8 max-w-4xl mx-auto">
           {children}
         </main>
-        <footer className="py-6 text-center text-sm text-foreground-muted border-t border-border">
-          <a href="/feed.xml" className="hover:text-neon-cyan transition-colors">
-            📡 RSS
-          </a>
+        <footer className="py-8 text-center text-sm text-foreground-muted border-t border-border space-y-3">
+          <p>
+            Fait avec 🍷 depuis Bordeaux
+          </p>
+          <p className="text-xs">
+            Next.js · Supabase · Tailwind · Claude Code
+          </p>
+          <div className="flex justify-center gap-4">
+            <a href="/feed.xml" className="hover:text-neon-cyan transition-colors">
+              📡 RSS
+            </a>
+            <span>·</span>
+            <a href="https://github.com/AGI-SO/claude-porn" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">
+              GitHub
+            </a>
+          </div>
         </footer>
       </body>
     </html>
