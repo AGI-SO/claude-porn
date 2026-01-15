@@ -26,7 +26,19 @@ export function HeroSection() {
     <section
       className={`hero-section text-center py-16 mb-8 ${scrolled ? "scrolled" : ""}`}
     >
-      <h1 className="text-6xl md:text-8xl font-display glitch-hard neon-cyan mb-6">
+      <h1 className="text-6xl md:text-8xl font-display glitch-hard neon-cyan mb-6 flex items-center justify-center gap-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className="w-16 h-16 md:w-24 md:h-24">
+          <g fill="#da7756" transform="translate(32, 48) scale(1.6)">
+            <ellipse cx="0" cy="-14" rx="2.5" ry="14"/>
+            <ellipse cx="0" cy="-12" rx="2.5" ry="12" transform="rotate(-40)"/>
+            <ellipse cx="0" cy="-12" rx="2.5" ry="12" transform="rotate(40)"/>
+            <ellipse cx="0" cy="-9" rx="2" ry="9" transform="rotate(-75)"/>
+            <ellipse cx="0" cy="-9" rx="2" ry="9" transform="rotate(75)"/>
+            <ellipse cx="0" cy="-6" rx="1.5" ry="6" transform="rotate(-120)"/>
+            <ellipse cx="0" cy="-6" rx="1.5" ry="6" transform="rotate(120)"/>
+            <circle cx="0" cy="0" r="3"/>
+          </g>
+        </svg>
         Claude Porn
       </h1>
       <p className="text-lg text-foreground-muted max-w-2xl mx-auto mb-8 px-4">
