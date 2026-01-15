@@ -37,8 +37,8 @@ export function StoryCard({ story, currentUserId, currentUserRole }: StoryCardPr
       />
 
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-neon-orange/80 font-bold mb-1 tracking-wide">
-          BREAKING NEWS
+        <p className="text-xs text-foreground-muted mb-1 italic">
+          Aujourd'hui j'ai demandé à Claude de
         </p>
         <p className="text-foreground whitespace-pre-wrap break-words leading-relaxed">
           {story.content}

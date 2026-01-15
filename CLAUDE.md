@@ -105,6 +105,10 @@ La clé anon Supabase est hardcodée (publique), seule `CLAUDE_PORN_API_KEY` est
 
 Le dossier `sql/` est la source de vérité pour le code backend Supabase.
 
+### ⚠️ Règles de commit
+1. **Commiter par blocs de fonctionnalité** — pas de commits pour un petit changement de wording, sauf si l'utilisateur le demande explicitement.
+2. **Après un push, vérifier le deploy Koyeb** — inspecter le déploiement jusqu'à ce qu'il soit `healthy` avant de considérer la tâche terminée.
+
 ## Structure du projet
 ```
 sql/

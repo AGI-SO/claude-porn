@@ -4,8 +4,6 @@ import { HeroSection } from "@/components/HeroSection";
 import Link from "next/link";
 import type { StoryWithAuthor } from "@/lib/types";
 
-type SortOption = "recent" | "top" | "top-week";
-
 interface HomePageProps {
   searchParams: Promise<{ sort?: string }>;
 }
@@ -14,7 +12,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const { sort = "recent" } = await searchParams;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Get user role if logged in
   let currentUserRole = null;
@@ -29,13 +29,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   let query = supabase
     .from("stories")
-    .select(`
+    .select(
+      `
       *,
       profiles!stories_user_id_fkey (
         username,
         avatar_url
       )
-    `)
+    `
+    )
     .limit(50);
 
   if (sort === "top") {
@@ -64,23 +66,28 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       .in("story_id", storyIds);
 
     if (votes) {
-      userVotes = Object.fromEntries(votes.map((v: { story_id: string; vote_type: number }) => [v.story_id, v.vote_type]));
+      userVotes = Object.fromEntries(
+        votes.map((v: { story_id: string; vote_type: number }) => [
+          v.story_id,
+          v.vote_type,
+        ])
+      );
     }
   }
 
-  const storiesWithVotes: StoryWithAuthor[] = (stories || []).map((story: any) => ({
-    ...story,
-    user_vote: userVotes[story.id] || null,
-  }));
+  const storiesWithVotes: StoryWithAuthor[] = (stories || []).map(
+    (story: any) => ({
+      ...story,
+      user_vote: userVotes[story.id] || null,
+    })
+  );
 
   return (
     <div>
       <HeroSection />
 
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-display neon-cyan">
-          Vu à la télé
-        </h2>
+        <h2 className="text-2xl font-display neon-cyan">Vu à la télé</h2>
       </div>
 
       <nav className="flex gap-2 mb-6">
@@ -104,7 +111,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   );
 }
 
-function SortLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+function SortLink({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
