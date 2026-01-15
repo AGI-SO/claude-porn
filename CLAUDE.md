@@ -1,5 +1,27 @@
 # Claude Porn - Notes de session
 
+## Ton et wording
+
+### Principes
+- **Tutoiement** systématique
+- **Phrases courtes**, directes, percutantes
+- **Mélange français/anglais** technique (franglais assumé)
+- **Ton légèrement ironique/sarcastique** mais bienveillant
+- **Métaphores télé/diffusion** : "transmission", "diffuser", "studio", "vu à la télé"
+- **Messages d'erreur provocateurs** mais drôles ("T'as rien à raconter ? Retourne sur ChatGPT.")
+
+### Exemples de wording
+- Navigation : "Fresh", "Hall of Fame", "Hot cette semaine"
+- Actions : "Diffuser", "Transmission...", "Édition spéciale"
+- Erreurs : Direct et un peu piquant, jamais condescendant
+- Boutons : Verbes d'action clairs, pas de "Cliquez ici" ou formules corporate
+
+### À éviter
+- Vouvoiement
+- Jargon corporate ("Veuillez...", "Merci de...")
+- Phrases longues et complexes
+- Ton trop sérieux ou académique
+
 ## État actuel
 - **Projet Next.js 16 + Supabase** fonctionnel et déployé
 - **Auth OAuth** : Discord + GitHub configurés et fonctionnels

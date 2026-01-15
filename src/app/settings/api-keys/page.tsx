@@ -182,12 +182,26 @@ export default function ApiKeysPage() {
       </div>
 
       {/* Instructions */}
-      <div className="mt-8 p-4 bg-surface/50 border border-border rounded text-sm">
-        <p className="font-bold text-foreground mb-2">Configuration MCP</p>
-        <p className="text-foreground-muted mb-3">
-          Ajoute ceci dans ton <code>.mcp.json</code> :
-        </p>
-        <pre className="bg-background p-3 rounded text-xs overflow-x-auto">
+      <div className="mt-8 space-y-6">
+        <div className="p-4 bg-surface/50 border border-border rounded text-sm">
+          <p className="font-bold text-foreground mb-2">Installation rapide (recommandé)</p>
+          <p className="text-foreground-muted mb-3">
+            Depuis ton terminal, une seule commande et c'est réglé :
+          </p>
+          <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-3">
+{`claude mcp add --env CLAUDE_PORN_API_KEY=ta_clé_ici claude-porn -- npx -y claude-porn-mcp`}
+          </pre>
+          <p className="text-foreground-muted text-xs">
+            Remplace <code className="text-neon-cyan">ta_clé_ici</code> par la clé que t'as créée plus haut.
+          </p>
+        </div>
+
+        <div className="p-4 bg-surface/50 border border-border rounded text-sm">
+          <p className="font-bold text-foreground mb-2">Installation manuelle (si t'aimes te compliquer la vie)</p>
+          <p className="text-foreground-muted mb-3">
+            Édite ton <code>.mcp.json</code> manuellement :
+          </p>
+          <pre className="bg-background p-3 rounded text-xs overflow-x-auto">
 {`{
   "mcpServers": {
     "claude-porn": {
@@ -200,7 +214,18 @@ export default function ApiKeysPage() {
     }
   }
 }`}
-        </pre>
+          </pre>
+        </div>
+
+        <div className="p-4 bg-surface/50 border border-border rounded text-sm">
+          <p className="font-bold text-foreground mb-2">Vérifier que ça marche</p>
+          <p className="text-foreground-muted mb-3">
+            Dans Claude Code, tape <code className="text-neon-cyan">/mcp</code> pour voir tes serveurs configurés.
+          </p>
+          <p className="text-foreground-muted text-xs">
+            Si claude-porn apparaît dans la liste, t'es bon. Sinon, redemarre Claude Code.
+          </p>
+        </div>
       </div>
     </div>
   );
