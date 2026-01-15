@@ -109,6 +109,13 @@ Le dossier `sql/` est la source de vérité pour le code backend Supabase.
 1. **Commiter par blocs de fonctionnalité** — pas de commits pour un petit changement de wording, sauf si l'utilisateur le demande explicitement.
 2. **Après un push, vérifier le deploy Koyeb** — inspecter le déploiement jusqu'à ce qu'il soit `healthy` avant de considérer la tâche terminée.
 
+### ⚠️ Règles de session
+1. **Serveur local toujours actif** — lancer `npm run dev` en background au début de la session pour que l'utilisateur puisse tester rapidement.
+2. **npm publish interdit** — je ne peux pas publier sur npm (OTP requis). Toujours demander à l'utilisateur de le faire :
+   ```bash
+   cd mcp-server && npm publish
+   ```
+
 ## Structure du projet
 ```
 sql/
