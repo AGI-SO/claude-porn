@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Cannabis leaf - terracotta color, centered -->
-  <g fill="#da7756" transform="translate(32, 32)">
+  <!-- Cannabis leaf - terracotta color, visually centered and scaled up -->
+  <g fill="#da7756" transform="translate(32, 48) scale(1.6)">
     <!-- Branche centrale (la plus longue, vers le haut) -->
     <ellipse cx="0" cy="-14" rx="2.5" ry="14"/>
 
