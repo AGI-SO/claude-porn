@@ -10,15 +10,17 @@ interface ApiKey {
   name: string;
   created_at: string;
   revoked: boolean;
-  key?: string; // Only present when just created
+  key?: string;
 }
 
 export default function ApiKeysPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [keys, setKeys] = useState<ApiKey[]>([]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const [newKeyName, setNewKeyName] = useState("");
-  const [newKey, setNewKey] = useState<string | null>(null);
+  const [visibleKey, setVisibleKey] = useState<string | null>(null);
+  const [visibleKeyId, setVisibleKeyId] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -47,8 +49,7 @@ export default function ApiKeysPage() {
     init();
   }, [supabase, router]);
 
-  const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreate = async () => {
     if (!newKeyName.trim()) {
       setError("Donne un nom à ta clé");
       return;
@@ -56,7 +57,6 @@ export default function ApiKeysPage() {
 
     setIsCreating(true);
     setError(null);
-    setNewKey(null);
 
     const { data, error: rpcError } = await supabase
       .rpc("generate_api_key", { key_name: newKeyName.trim() });
@@ -68,9 +68,11 @@ export default function ApiKeysPage() {
     }
 
     const createdKey = data[0];
-    setNewKey(createdKey.key);
+    setVisibleKey(createdKey.key);
+    setVisibleKeyId(createdKey.id);
     setKeys([{ ...createdKey, revoked: false }, ...keys]);
     setNewKeyName("");
+    setShowCreateForm(false);
     setIsCreating(false);
   };
 
@@ -78,7 +80,11 @@ export default function ApiKeysPage() {
     const { data } = await supabase.rpc("revoke_api_key", { key_id: keyId });
 
     if (data) {
-      setKeys(keys.map(k => k.id === keyId ? { ...k, revoked: true } : k));
+      setKeys(keys.filter(k => k.id !== keyId));
+      if (keyId === visibleKeyId) {
+        setVisibleKey(null);
+        setVisibleKeyId(null);
+      }
     }
   };
 
@@ -96,104 +102,125 @@ export default function ApiKeysPage() {
 
   if (!user) return null;
 
+  const activeKeys = keys.filter(k => !k.revoked);
+  const displayKey = visibleKey || "ta_clé_ici";
+
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-display neon-cyan mb-2">
-        Clés API
+        Serveur MCP
       </h1>
       <p className="text-foreground-muted mb-8">
         Utilise ces clés pour poster depuis Claude Code via le serveur MCP
       </p>
 
-      {/* Create new key */}
-      <form onSubmit={handleCreate} className="card p-4 mb-8">
-        <h2 className="text-lg font-bold mb-4">Nouvelle clé</h2>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={newKeyName}
-            onChange={(e) => setNewKeyName(e.target.value)}
-            placeholder="Nom de la clé (ex: laptop-perso)"
-            className="flex-1 px-3 py-2 bg-surface border border-border rounded text-foreground placeholder:text-foreground-muted focus:outline-none focus:border-neon-cyan"
-          />
+      {/* Keys list */}
+      <div className="card p-4 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-bold">Tes clés API</h2>
           <button
-            type="submit"
-            disabled={isCreating}
-            className="btn-neon px-4 py-2 disabled:opacity-50"
+            onClick={() => setShowCreateForm(!showCreateForm)}
+            className="btn-neon px-4 py-2 text-sm"
           >
-            {isCreating ? "..." : "Créer"}
+            {showCreateForm ? "Annuler" : "Créer"}
           </button>
         </div>
-        {error && <p className="text-neon-orange text-sm mt-2">{error}</p>}
-      </form>
 
-      {/* Show newly created key */}
-      {newKey && (
-        <div className="card p-4 mb-8 border-neon-cyan bg-neon-cyan/5">
-          <h2 className="text-lg font-bold text-neon-cyan mb-2">
-            Nouvelle clé créée
-          </h2>
-          <p className="text-sm text-foreground-muted mb-3">
-            Copie cette clé maintenant, elle ne sera plus affichée !
-          </p>
-          <div className="flex gap-2">
-            <code className="flex-1 px-3 py-2 bg-background border border-border rounded text-sm break-all">
-              {newKey}
-            </code>
-            <button
-              onClick={() => copyToClipboard(newKey)}
-              className="btn-neon px-3 py-2 text-sm"
-            >
-              Copier
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Existing keys */}
-      <div className="space-y-3">
-        <h2 className="text-lg font-bold">Tes clés</h2>
-        {keys.length === 0 ? (
-          <p className="text-foreground-muted">Aucune clé pour le moment</p>
-        ) : (
-          keys.map((key) => (
-            <div
-              key={key.id}
-              className={`card p-4 flex items-center justify-between ${key.revoked ? "opacity-50" : ""}`}
-            >
-              <div>
-                <div className="font-bold">{key.name}</div>
-                <div className="text-sm text-foreground-muted">
-                  Créée le {new Date(key.created_at).toLocaleDateString("fr-FR")}
-                  {key.revoked && <span className="text-neon-orange ml-2">(révoquée)</span>}
-                </div>
-              </div>
-              {!key.revoked && (
-                <button
-                  onClick={() => handleRevoke(key.id)}
-                  className="text-sm text-neon-orange hover:underline"
-                >
-                  Révoquer
-                </button>
-              )}
+        {/* Create form inline */}
+        {showCreateForm && (
+          <div className="mb-4 pb-4 border-b border-border">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newKeyName}
+                onChange={(e) => setNewKeyName(e.target.value)}
+                placeholder="Nom de la clé (ex: laptop-perso)"
+                className="flex-1 px-3 py-2 bg-surface border border-border rounded text-foreground placeholder:text-foreground-muted focus:outline-none focus:border-neon-cyan text-sm"
+                onKeyDown={(e) => e.key === "Enter" && handleCreate()}
+              />
+              <button
+                onClick={handleCreate}
+                disabled={isCreating}
+                className="btn-neon px-4 py-2 text-sm disabled:opacity-50"
+              >
+                {isCreating ? "..." : "Valider"}
+              </button>
             </div>
-          ))
+            {error && <p className="text-neon-orange text-sm mt-2">{error}</p>}
+          </div>
+        )}
+
+        {/* Keys list */}
+        {activeKeys.length === 0 ? (
+          <p className="text-foreground-muted text-center py-4">
+            Aucune clé active. Crée-en une pour commencer !
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {activeKeys.map((key) => (
+              <div
+                key={key.id}
+                className={`p-3 rounded border transition-colors ${
+                  key.id === visibleKeyId
+                    ? "border-neon-cyan bg-neon-cyan/5"
+                    : "border-border bg-surface"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="font-bold text-sm">{key.name}</div>
+                    <div className="text-xs text-foreground-muted">
+                      Créée le {new Date(key.created_at).toLocaleDateString("fr-FR")}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleRevoke(key.id)}
+                    className="text-xs text-neon-orange hover:underline"
+                  >
+                    Révoquer
+                  </button>
+                </div>
+
+                {/* Show key if it's the visible one */}
+                {key.id === visibleKeyId && visibleKey && (
+                  <div className="mt-3 pt-3 border-t border-neon-cyan/30">
+                    <p className="text-xs text-neon-cyan mb-2">
+                      Copie cette clé maintenant, elle ne sera plus affichée après refresh !
+                    </p>
+                    <div className="flex gap-2">
+                      <code className="flex-1 px-2 py-1 bg-background border border-border rounded text-xs break-all">
+                        {visibleKey}
+                      </code>
+                      <button
+                        onClick={() => copyToClipboard(visibleKey)}
+                        className="btn-neon px-3 py-1 text-xs"
+                      >
+                        Copier
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
       {/* Instructions */}
-      <div className="mt-8 space-y-6">
+      <div className="space-y-6">
         <div className="p-4 bg-surface/50 border border-border rounded text-sm">
           <p className="font-bold text-foreground mb-2">Installation rapide (recommandé)</p>
           <p className="text-foreground-muted mb-3">
             Depuis ton terminal, une seule commande et c'est réglé :
           </p>
           <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-3">
-{`claude mcp add --env CLAUDE_PORN_API_KEY=ta_clé_ici claude-porn -- npx -y claude-porn-mcp`}
+{`claude mcp add --scope user --transport stdio -e CLAUDE_PORN_API_KEY=${displayKey} claude-porn -- npx -y claude-porn-mcp`}
           </pre>
-          <p className="text-foreground-muted text-xs">
-            Remplace <code className="text-neon-cyan">ta_clé_ici</code> par la clé que t'as créée plus haut.
-          </p>
+          {!visibleKey && (
+            <p className="text-foreground-muted text-xs">
+              Remplace <code className="text-neon-cyan">ta_clé_ici</code> par la clé que t'as créée plus haut.
+            </p>
+          )}
         </div>
 
         <div className="p-4 bg-surface/50 border border-border rounded text-sm">
@@ -209,7 +236,7 @@ export default function ApiKeysPage() {
       "command": "npx",
       "args": ["-y", "claude-porn-mcp"],
       "env": {
-        "CLAUDE_PORN_API_KEY": "ta_clé_ici"
+        "CLAUDE_PORN_API_KEY": "${displayKey}"
       }
     }
   }
