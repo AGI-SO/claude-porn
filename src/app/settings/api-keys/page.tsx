@@ -213,15 +213,15 @@ export default function ApiKeysPage() {
           <p className="text-foreground-muted mb-3">
             Depuis ton terminal, une seule commande et c'est réglé :
           </p>
-          <div className="relative">
-            <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-3">
+          <div>
+            <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-2">
 {`claude mcp add --scope user --transport stdio -e CLAUDE_PORN_API_KEY=${displayKey} claude-porn -- npx -y claude-porn-mcp`}
             </pre>
             <button
               onClick={() => copyToClipboard(`claude mcp add --scope user --transport stdio -e CLAUDE_PORN_API_KEY=${displayKey} claude-porn -- npx -y claude-porn-mcp`)}
-              className="absolute top-2 right-2 btn-neon px-3 py-1 text-xs"
+              className="btn-neon px-3 py-1 text-xs mb-3"
             >
-              Copier
+              Copier la commande
             </button>
           </div>
           {!visibleKey && (
@@ -236,8 +236,8 @@ export default function ApiKeysPage() {
           <p className="text-foreground-muted mb-3">
             Édite ton <code>.mcp.json</code> manuellement :
           </p>
-          <div className="relative">
-            <pre className="bg-background p-3 rounded text-xs overflow-x-auto">
+          <div>
+            <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-2">
 {`{
   "mcpServers": {
     "claude-porn": {
@@ -264,9 +264,9 @@ export default function ApiKeysPage() {
     }
   }
 }`)}
-              className="absolute top-2 right-2 btn-neon px-3 py-1 text-xs"
+              className="btn-neon px-3 py-1 text-xs"
             >
-              Copier
+              Copier le JSON
             </button>
           </div>
         </div>
