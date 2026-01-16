@@ -213,9 +213,17 @@ export default function ApiKeysPage() {
           <p className="text-foreground-muted mb-3">
             Depuis ton terminal, une seule commande et c'est réglé :
           </p>
-          <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-3">
+          <div className="relative">
+            <pre className="bg-background p-3 rounded text-xs overflow-x-auto mb-3">
 {`claude mcp add --scope user --transport stdio -e CLAUDE_PORN_API_KEY=${displayKey} claude-porn -- npx -y claude-porn-mcp`}
-          </pre>
+            </pre>
+            <button
+              onClick={() => copyToClipboard(`claude mcp add --scope user --transport stdio -e CLAUDE_PORN_API_KEY=${displayKey} claude-porn -- npx -y claude-porn-mcp`)}
+              className="absolute top-2 right-2 btn-neon px-3 py-1 text-xs"
+            >
+              Copier
+            </button>
+          </div>
           {!visibleKey && (
             <p className="text-foreground-muted text-xs">
               Remplace <code className="text-neon-cyan">ta_clé_ici</code> par la clé que t'as créée plus haut.
@@ -228,7 +236,8 @@ export default function ApiKeysPage() {
           <p className="text-foreground-muted mb-3">
             Édite ton <code>.mcp.json</code> manuellement :
           </p>
-          <pre className="bg-background p-3 rounded text-xs overflow-x-auto">
+          <div className="relative">
+            <pre className="bg-background p-3 rounded text-xs overflow-x-auto">
 {`{
   "mcpServers": {
     "claude-porn": {
@@ -241,7 +250,25 @@ export default function ApiKeysPage() {
     }
   }
 }`}
-          </pre>
+            </pre>
+            <button
+              onClick={() => copyToClipboard(`{
+  "mcpServers": {
+    "claude-porn": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "claude-porn-mcp"],
+      "env": {
+        "CLAUDE_PORN_API_KEY": "${displayKey}"
+      }
+    }
+  }
+}`)}
+              className="absolute top-2 right-2 btn-neon px-3 py-1 text-xs"
+            >
+              Copier
+            </button>
+          </div>
         </div>
 
         <div className="p-4 bg-surface/50 border border-border rounded text-sm">
